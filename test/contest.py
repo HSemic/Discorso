@@ -3,10 +3,7 @@ import pytest
 
 from src.app import create_app
 
-discorso = create_app()
-
-@pytest.fixture()
+@pytest.fixture(scope="module")
 def client():
-    discorso.config["TESTING"] = True
-    with discorso.test_client() as client:
+    with create_app.test_client() as client:
         yield client

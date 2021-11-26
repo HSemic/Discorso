@@ -1,31 +1,246 @@
+from urllib.request import urlopen
 from flask import Flask, jsonify
-from src.blueprints.endpoints import endpoint_aiml, endpoint_nlp
+from flask_cors.decorator import cross_origin
+
+# from src.blueprints.endpoints import endpoint_aiml, endpoint_nlp
 from src.blueprints.endpoints.swagger import swagger_ui_blueprint, SWAGGER_URL
+
+import json
+
+from functools import wraps
+
+from flask import Flask, request, jsonify, _request_ctx_stack
+from jose import jwt
+
+import datetime as dt
 
 from src.api_spec import spec
 
-def create_app():
-    app = Flask(__name__)
-    app.register_blueprint(endpoint_aiml.blueprint_aiml)
-    app.register_blueprint(endpoint_nlp.blueprint_nlp)
+from . bots.aiml import AIMLChatBot
+from . bots.nlp import NLPChatBot
 
-    app.register_blueprint(swagger_ui_blueprint, url_prefix=SWAGGER_URL)
+aimlBot = AIMLChatBot()
+nlpBot = NLPChatBot()
 
-    with app.test_request_context():
-    # register all swagger documented functions here
-        for fn_name in app.view_functions:
-            if fn_name == 'static':
-                continue
-            view_fn = app.view_functions[fn_name]
-            spec.path(view=view_fn)
+AUTH0_DOMAIN = 'YOUR_DOMAIN'
+API_AUDIENCE = "https://discorso/api"
+ALGORITHMS = ["RS256"]
 
-    @app.route("/api/swagger.json")
-    def create_swagger_spec():
-        return jsonify(spec.to_dict())
+app = Flask(__name__)
+# app.register_blueprint(endpoint_aiml.blueprint_aiml)
+# app.register_blueprint(endpoint_nlp.blueprint_nlp)
 
-    return app
+app.register_blueprint(swagger_ui_blueprint, url_prefix=SWAGGER_URL)
+
+with app.test_request_context():
+# register all swagger documented functions here
+    for fn_name in app.view_functions:
+        if fn_name == 'static':
+            continue
+        view_fn = app.view_functions[fn_name]
+        spec.path(view=view_fn)
+
+@app.route("/api/swagger.json")
+def create_swagger_spec():
+    return jsonify(spec.to_dict())
+
+class AuthError(Exception):
+    def __init__(self, error, status_code):
+        self.error = error
+        self.status_code = status_code
+
+@app.errorhandler(AuthError)
+def handle_auth_error(ex):
+    response = jsonify(ex.error)
+    response.status_code = ex.status_code
+    return response
+
+def get_token_auth_header():
+    """Obtains the Access Token from the Authorization Header
+    """
+    auth = request.headers.get("Authorization", None)
+    if not auth:
+        raise AuthError({"code": "authorization_header_missing",
+                        "description":
+                            "Authorization header is expected"}, 401)
+
+    parts = auth.split()
+
+    if parts[0].lower() != "bearer":
+        raise AuthError({"code": "invalid_header",
+                        "description":
+                            "Authorization header must start with"
+                            " Bearer"}, 401)
+    elif len(parts) == 1:
+        raise AuthError({"code": "invalid_header",
+                        "description": "Token not found"}, 401)
+    elif len(parts) > 2:
+        raise AuthError({"code": "invalid_header",
+                        "description":
+                            "Authorization header must be"
+                            " Bearer token"}, 401)
+
+    token = parts[1]
+    return token
+
+def requires_auth(f):
+    """Determines if the Access Token is valid
+    """
+    @wraps(f)
+    def decorated(*args, **kwargs):
+        token = get_token_auth_header()
+        jsonurl = urlopen("https://"+AUTH0_DOMAIN+"/.well-known/jwks.json")
+        jwks = json.loads(jsonurl.read())
+        unverified_header = jwt.get_unverified_header(token)
+        rsa_key = {}
+        for key in jwks["keys"]:
+            if key["kid"] == unverified_header["kid"]:
+                rsa_key = {
+                    "kty": key["kty"],
+                    "kid": key["kid"],
+                    "use": key["use"],
+                    "n": key["n"],
+                    "e": key["e"]
+                }
+        if rsa_key:
+            try:
+                payload = jwt.decode(
+                    token,
+                    rsa_key,
+                    algorithms=ALGORITHMS,
+                    audience=API_AUDIENCE,
+                    issuer="https://"+AUTH0_DOMAIN+"/"
+                )
+            except jwt.ExpiredSignatureError:
+                raise AuthError({"code": "token_expired",
+                                "description": "token is expired"}, 401)
+            except jwt.JWTClaimsError:
+                raise AuthError({"code": "invalid_claims",
+                                "description":
+                                    "incorrect claims,"
+                                    "please check the audience and issuer"}, 401)
+            except Exception:
+                raise AuthError({"code": "invalid_header",
+                                "description":
+                                    "Unable to parse authentication"
+                                    " token."}, 401)
+
+            _request_ctx_stack.top.current_user = payload
+            return f(*args, **kwargs)
+        raise AuthError({"code": "invalid_header",
+                        "description": "Unable to find appropriate key"}, 401)
+    return decorated
+
+
+@app.route('/aiml', methods=['GET'])
+def testAiml():
+    """
+    ---
+    get:
+      description: test endpoint
+      responses:
+        '200':
+          description: call successful
+          content:
+            application/json:
+              schema: OutputSchema
+      tags:
+          - testing
+    """
+    output = {"message": "This is a test message from the aiml chatbot."}
+    return jsonify(output)
+
+@app.route('/aiml', methods=["POST"])
+def get_aiml_message():
+    """
+    ---
+    post:
+      description: posts a chat message and returns response from the AIML chatbot
+      requestBody:
+        required: true
+        content:
+            application/json:
+                schema: InputSchema
+      responses:
+        '200':
+          description: call successful
+          content:
+            application/json:
+              schema: OutputSchema
+      parameters:
+        - in: body
+          name: userInput
+          description: A chat message sent by the user
+          schema: InputSchema
+      tags:
+          - chatting
+    """
+
+    message = request.form.get("userInput");
+
+    if (not(message) or message == ""):
+        return jsonify({"message": "Say something. :D", "created_at": dt.datetime.now()})
+
+    output = {"message": aimlBot.getResponseMessage(message), "created_at": dt.datetime.now()}
+
+    return jsonify(output)
+
+
+@app.route('/nlp', methods=['GET'])
+def testNlp():
+    """
+    ---
+    get:
+      description: test endpoint
+      responses:
+        '200':
+          description: call successful
+          content:
+            application/json:
+              schema: OutputSchema
+      tags:
+          - testing
+    """
+    output = {"message": "This is a test message from the nlp chatbot."}
+    return jsonify(output)
+
+@cross_origin(headers=["Content-Type", "Authorization"])
+@requires_auth
+@app.route('/nlp', methods=["POST"])
+def get_nlp_message():
+    """
+    ---
+    post:
+      description: Posts a chat message and returns response from the NLP chatbot
+      requestBody:
+        required: true
+        content:
+            application/json:
+                schema: InputSchema
+      responses:
+        '200':
+          description: call successful
+          content:
+            application/json:
+              schema: OutputSchema
+      parameters:
+        - in: body
+          name: userInput
+          description: A chat message sent by the user
+          schema: InputSchema
+      tags:
+          - chatting
+    """
+
+    message = request.form.get("userInput");
+
+    if (not(message) or message == ""):
+        return jsonify({"message": "Say something. :D", "created_at": dt.datetime.now()})
+
+    output = {"message": nlpBot.getResponseMessage(message), "created_at": dt.datetime.now()}
+
+    return jsonify(output)
+
 
 # if __name__ == "__main__":
 #     app.run()
-
-
