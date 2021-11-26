@@ -22,9 +22,7 @@ from . bots.nlp import NLPChatBot
 aimlBot = AIMLChatBot()
 nlpBot = NLPChatBot()
 
-AUTH0_DOMAIN = 'YOUR_DOMAIN'
-API_AUDIENCE = "https://discorso/api"
-ALGORITHMS = ["RS256"]
+from . security.auth import auth
 
 app = Flask(__name__)
 # app.register_blueprint(endpoint_aiml.blueprint_aiml)
@@ -89,7 +87,7 @@ def requires_auth(f):
     @wraps(f)
     def decorated(*args, **kwargs):
         token = get_token_auth_header()
-        jsonurl = urlopen("https://"+AUTH0_DOMAIN+"/.well-known/jwks.json")
+        jsonurl = urlopen("https://"+auth["AUTH0_DOMAIN"]+"/.well-known/jwks.json")
         jwks = json.loads(jsonurl.read())
         unverified_header = jwt.get_unverified_header(token)
         rsa_key = {}
@@ -107,9 +105,9 @@ def requires_auth(f):
                 payload = jwt.decode(
                     token,
                     rsa_key,
-                    algorithms=ALGORITHMS,
-                    audience=API_AUDIENCE,
-                    issuer="https://"+AUTH0_DOMAIN+"/"
+                    algorithms=auth["ALGORITHMS"],
+                    audience=auth["API_AUDIENCE"],
+                    issuer="https://"+auth["AUTH0_DOMAIN"]+"/"
                 )
             except jwt.ExpiredSignatureError:
                 raise AuthError({"code": "token_expired",
@@ -131,8 +129,24 @@ def requires_auth(f):
                         "description": "Unable to find appropriate key"}, 401)
     return decorated
 
+def requires_scope(required_scope):
+    """Determines if the required scope is present in the Access Token
+    Args:
+        required_scope (str): The scope required to access the resource
+    """
+    token = get_token_auth_header()
+    unverified_claims = jwt.get_unverified_claims(token)
+    if unverified_claims.get("scope"):
+            token_scopes = unverified_claims["scope"].split()
+            for token_scope in token_scopes:
+                if token_scope == required_scope:
+                    return True
+    return False
+
 
 @app.route('/aiml', methods=['GET'])
+@cross_origin(headers=["Content-Type", "Authorization"])
+@requires_auth
 def testAiml():
     """
     ---
@@ -151,6 +165,8 @@ def testAiml():
     return jsonify(output)
 
 @app.route('/aiml', methods=["POST"])
+@cross_origin(headers=["Content-Type", "Authorization"])
+@requires_auth
 def get_aiml_message():
     """
     ---
@@ -187,6 +203,8 @@ def get_aiml_message():
 
 
 @app.route('/nlp', methods=['GET'])
+@cross_origin(headers=["Content-Type", "Authorization"])
+@requires_auth
 def testNlp():
     """
     ---
@@ -204,9 +222,9 @@ def testNlp():
     output = {"message": "This is a test message from the nlp chatbot."}
     return jsonify(output)
 
+@app.route('/nlp', methods=["POST"])
 @cross_origin(headers=["Content-Type", "Authorization"])
 @requires_auth
-@app.route('/nlp', methods=["POST"])
 def get_nlp_message():
     """
     ---
@@ -240,7 +258,8 @@ def get_nlp_message():
     output = {"message": nlpBot.getResponseMessage(message), "created_at": dt.datetime.now()}
 
     return jsonify(output)
-
+    
+  
 
 # if __name__ == "__main__":
 #     app.run()
