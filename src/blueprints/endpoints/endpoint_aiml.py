@@ -24,7 +24,7 @@ def test():
       tags:
           - testing
     """
-    output = {"msg": "This is a test message from the aiml chatbot."}
+    output = {"message": "This is a test message from the aiml chatbot."}
     return jsonify(output)
 
 @blueprint_aiml.route('/aiml', methods=["POST"])
@@ -56,7 +56,7 @@ def get_aiml_message():
     message = request.form.get("userInput");
 
     if (not(message) or message == ""):
-        return jsonify({"message": "Your message is empty.", "created_at": dt.datetime.now()})
+        return jsonify({"message": "Say something. :D", "created_at": dt.datetime.now()})
 
     output = {"message": aimlBot.getResponseMessage(message), "created_at": dt.datetime.now()}
 

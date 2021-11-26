@@ -24,7 +24,7 @@ def test():
       tags:
           - testing
     """
-    output = {"msg": "This is a test message from the nlp chatbot."}
+    output = {"message": "This is a test message from the nlp chatbot."}
     return jsonify(output)
 
 @blueprint_nlp.route('/nlp', methods=["POST"])
@@ -56,7 +56,7 @@ def get_nlp_message():
     message = request.form.get("userInput");
 
     if (not(message) or message == ""):
-        return jsonify({"message": "Your message is empty.", "created_at": dt.datetime.now()})
+        return jsonify({"message": "Say something. :D", "created_at": dt.datetime.now()})
 
     # output = {"message": nlpBot.getResponseMessage(message), "created_at": dt.datetime.now()}
 
