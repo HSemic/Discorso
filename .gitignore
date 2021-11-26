@@ -1,4 +1,7 @@
 venv/
+
+src/security/
+src/security/auth.py
+
 Upute.txt
 **/__pycache__
-src/security/auth.py
