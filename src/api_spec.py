@@ -40,5 +40,4 @@ tags = [
        ]
 
 for tag in tags:
-    print(f"Adding tag: {tag['name']}")
     spec.tag(tag)

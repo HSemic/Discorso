@@ -2,6 +2,9 @@ from flask import Blueprint, request
 import datetime as dt
 
 from flask.json import jsonify
+from flask_cors.decorator import cross_origin
+
+from ...security import requires_auth
 
 from ...bots.aiml import AIMLChatBot
 
@@ -10,11 +13,13 @@ aimlBot = AIMLChatBot();
 blueprint_aiml = Blueprint('aiml_api', __name__, url_prefix='/')
 
 @blueprint_aiml.route('/aiml', methods=['GET'])
+@cross_origin(headers=["Content-Type", "Authorization"])
+@requires_auth
 def test():
     """
     ---
     get:
-      description: test endpoint
+      description: Test endpoint for the AIML chatbot
       responses:
         '200':
           description: call successful
@@ -28,11 +33,13 @@ def test():
     return jsonify(output)
 
 @blueprint_aiml.route('/aiml', methods=["POST"])
+@cross_origin(headers=["Content-Type", "Authorization"])
+@requires_auth
 def get_aiml_message():
     """
     ---
     post:
-      description: posts a chat message and returns response from the AIML chatbot
+      description: Posts a chat message and returns response from the AIML chatbot
       requestBody:
         required: true
         content:

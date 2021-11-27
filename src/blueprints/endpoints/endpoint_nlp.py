@@ -5,7 +5,7 @@ from flask.json import jsonify
 
 from flask_cors import cross_origin
 
-from src.security.auth import requires_auth
+from ...security import requires_auth
 
 from ...bots.nlp import NLPChatBot
 
@@ -14,11 +14,13 @@ nlpBot = NLPChatBot();
 blueprint_nlp = Blueprint('nlp_api', __name__, url_prefix='/')
 
 @blueprint_nlp.route('/nlp', methods=['GET'])
+@cross_origin(headers=["Content-Type", "Authorization"])
+@requires_auth
 def test():
     """
     ---
     get:
-      description: test endpoint
+      description: Test endpoint for the NLP chatbot
       responses:
         '200':
           description: call successful
