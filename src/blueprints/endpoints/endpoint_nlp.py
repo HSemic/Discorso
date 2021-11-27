@@ -30,7 +30,7 @@ def test():
       tags:
           - testing
     """
-    output = {"message": "This is a test message from the nlp chatbot."}
+    output = {"message": "This is a test message from the nlp chatbot.", "created_at": dt.datetime.now()}
     return jsonify(output)
 
 

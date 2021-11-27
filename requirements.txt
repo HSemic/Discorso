@@ -9,8 +9,10 @@ charset-normalizer==2.0.8
 click==8.0.3
 colorama==0.4.4
 distlib==0.3.3
+ecdsa==0.17.0
 filelock==3.4.0
 Flask==2.0.2
+Flask-Cors==3.0.10
 flask-swagger-ui==3.36.0
 flatbuffers==2.0
 gast==0.4.0
@@ -41,7 +43,8 @@ pyasn1==0.4.8
 pyasn1-modules==0.2.8
 pyparsing==3.0.6
 python-aiml==0.9.3
-pywin32==302
+python-dotenv==0.19.2
+python-jose==3.3.0
 PyYAML==6.0
 regex==2021.11.10
 requests==2.26.0
@@ -64,6 +67,5 @@ urllib3==1.26.7
 virtualenv==20.10.0
 waitress==2.0.0
 Werkzeug==2.0.2
-winspeech==1.0.1
 wrapt==1.13.3
 zipp==3.6.0

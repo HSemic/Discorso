@@ -29,7 +29,7 @@ def test():
       tags:
           - testing
     """
-    output = {"message": "This is a test message from the aiml chatbot."}
+    output = {"message": "This is a test message from the aiml chatbot.", "created_at": dt.datetime.now()}
     return jsonify(output)
 
 @blueprint_aiml.route('/aiml', methods=["POST"])
