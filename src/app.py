@@ -5,6 +5,8 @@ from src.blueprints.endpoints.endpoint_swagger import swagger_ui_blueprint, SWAG
 
 from src.api_spec import spec
 
+from src.security import AuthError
+
 from . bots.aiml import AIMLChatBot
 from . bots.nlp import NLPChatBot
 
@@ -17,6 +19,12 @@ def create_app():
     app.register_blueprint(endpoint_nlp.blueprint_nlp)
 
     app.register_blueprint(swagger_ui_blueprint, url_prefix=SWAGGER_URL)
+
+    @app.errorhandler(AuthError)
+    def handle_auth_error(ex):
+        response = jsonify(ex.error)
+        response.status_code = ex.status_code
+        return response
 
     with app.test_request_context():
         # register all swagger documented functions here

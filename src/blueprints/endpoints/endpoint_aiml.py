@@ -13,7 +13,7 @@ aimlBot = AIMLChatBot();
 blueprint_aiml = Blueprint('aiml_api', __name__, url_prefix='/')
 
 @blueprint_aiml.route('/aiml', methods=['GET'])
-@cross_origin(headers=["Content-Type", "Authorization"])
+@cross_origin(allow_headers=["Content-Type", "Authorization"])
 @requires_auth
 def test():
     """
@@ -33,7 +33,7 @@ def test():
     return jsonify(output)
 
 @blueprint_aiml.route('/aiml', methods=["POST"])
-@cross_origin(headers=["Content-Type", "Authorization"])
+@cross_origin(allow_headers=["Content-Type", "Authorization"])
 @requires_auth
 def get_aiml_message():
     """

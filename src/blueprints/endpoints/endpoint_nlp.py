@@ -3,7 +3,7 @@ import datetime as dt
 
 from flask.json import jsonify
 
-from flask_cors import cross_origin
+from flask_cors.decorator import cross_origin
 
 from ...security import requires_auth
 
@@ -14,7 +14,7 @@ nlpBot = NLPChatBot();
 blueprint_nlp = Blueprint('nlp_api', __name__, url_prefix='/')
 
 @blueprint_nlp.route('/nlp', methods=['GET'])
-@cross_origin(headers=["Content-Type", "Authorization"])
+@cross_origin(allow_headers=["Content-Type", "Authorization"])
 @requires_auth
 def test():
     """
@@ -33,9 +33,10 @@ def test():
     output = {"message": "This is a test message from the nlp chatbot."}
     return jsonify(output)
 
-@cross_origin(headers=["Content-Type", "Authorization"])
-@requires_auth
+
 @blueprint_nlp.route('/nlp', methods=["POST"])
+@cross_origin(allow_headers=["Content-Type", "Authorization"])
+@requires_auth
 def get_nlp_message():
     """
     ---
