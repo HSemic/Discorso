@@ -4,3 +4,5 @@ src/security/auth_data.py
 
 Upute.txt
 **/__pycache__
+
+swagger-config.yaml

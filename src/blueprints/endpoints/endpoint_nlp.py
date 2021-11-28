@@ -62,12 +62,12 @@ def get_nlp_message():
           - chatting
     """
 
-    message = request.form.get("userInput");
+    userInput = request.form.get("userInput");
 
-    if (not(message) or message == ""):
+    if (not(userInput) or userInput == ""):
         return jsonify({"message": "Say something. :D", "created_at": dt.datetime.now()})
 
-    output = {"message": nlpBot.getResponseMessage(message), "created_at": dt.datetime.now()}
+    output = {"message": nlpBot.getResponseMessage(userInput), "created_at": dt.datetime.now()}
 
     return jsonify(output)
 

@@ -7,12 +7,6 @@ from src.api_spec import spec
 
 from src.security import AuthError
 
-from . bots.aiml import AIMLChatBot
-from . bots.nlp import NLPChatBot
-
-aimlBot = AIMLChatBot()
-nlpBot = NLPChatBot()
-
 def create_app():
     app = Flask(__name__)
     app.register_blueprint(endpoint_aiml.blueprint_aiml)
