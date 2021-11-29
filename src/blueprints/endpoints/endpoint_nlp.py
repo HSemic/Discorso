@@ -53,11 +53,6 @@ def get_nlp_message():
           content:
             application/json:
               schema: OutputSchema
-      parameters:
-        - in: body
-          name: userInput
-          description: A chat message sent by the user
-          schema: InputSchema
       tags:
           - chatting
     """
