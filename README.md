@@ -16,6 +16,7 @@ If you want to play around with it locally, clone this repo and install the depe
 ```
 $ git clone https://github.com/HSemic/Discorso.git
 $ cd Discorso
+```
 
 To run the backend, use the commands outlined below:
 
