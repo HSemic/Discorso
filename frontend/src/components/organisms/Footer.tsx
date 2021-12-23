@@ -1,8 +1,8 @@
-import React from 'react';
+import React from "react";
 
-import { ReactComponent as IconLinkedin } from '../../assets/images/svg/linkedin.svg';
-import { ReactComponent as IconGithub } from '../../assets/images/svg/github.svg';
-import ExternalLinkIcon from '../atoms/ExternalLinkIcon';
+import { ReactComponent as IconLinkedin } from "../../assets/images/svg/linkedin.svg";
+import { ReactComponent as IconGithub } from "../../assets/images/svg/github.svg";
+import ExternalLinkIcon from "../atoms/ExternalLinkIcon";
 
 const Footer = (): React.ReactElement => {
   return (
@@ -22,7 +22,10 @@ const Footer = (): React.ReactElement => {
             >
               <IconLinkedin />
             </ExternalLinkIcon>
-            <ExternalLinkIcon url="https://github.com/HSemic" name="GitHub">
+            <ExternalLinkIcon
+              url="https://github.com/HSemic/Discorso"
+              name="GitHub"
+            >
               <IconGithub />
             </ExternalLinkIcon>
           </div>
