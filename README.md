@@ -53,4 +53,4 @@ The app also has a dark mode switch.
 
 ## License
 
-Ordinare is released under the [MIT license](https://opensource.org/licenses/MIT).
+Discorso is released under the [MIT license](https://opensource.org/licenses/MIT).
