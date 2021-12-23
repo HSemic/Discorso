@@ -1,0 +1,65 @@
+.row {
+  display: flex;
+  justify-content: space-between;
+  margin: auto;
+
+  &:not(:last-child) {
+    margin-bottom: $gutter-vertical-md;
+  }
+
+  @include respondMin($lg) {
+    width: $row-width;
+  }
+
+  @include respondMax($lg) {
+    width: calc($row-width + 10%);
+  }
+
+  @include respondMax($md) {
+    width: calc($row-width + 20%);
+  }
+
+  @include respondMax($sm) {
+    width: calc($row-width + 25%);
+  }
+
+  &--responsive-md {
+    @include respondMax($md) {
+      flex-direction: column;
+    }
+  }
+
+  &--responsive-reverse-md {
+    @include respondMax($md) {
+      flex-direction: column-reverse;
+    }
+  }
+
+  &--responsive-lg {
+    @include respondMax($lg) {
+      flex-direction: column;
+    }
+  }
+
+  &--responsive-reverse-lg {
+    @include respondMax($lg) {
+      flex-direction: column-reverse;
+      gap: $gutter-vertical-sm !important;
+    }
+  }
+
+  &--gap-xs {
+    gap: $gutter-horizontal-xs;
+    @include flexColumns($gutter-horizontal-xs);
+  }
+
+  &--gap-sm {
+    gap: $gutter-horizontal-sm;
+    @include flexColumns($gutter-horizontal-sm);
+  }
+
+  &--gap-none {
+    gap: 0;
+    @include flexColumns($gutter-horizontal-none);
+  }
+}

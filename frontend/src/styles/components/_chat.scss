@@ -1,0 +1,129 @@
+.app-container {
+  .chat {
+    height: 35rem;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: $items-gap 1rem;
+    gap: calc($items-gap * 2);
+    overflow-y: auto;
+
+    &::-webkit-scrollbar {
+      width: 3px;
+      height: 5px;
+    }
+    &::-webkit-scrollbar-track {
+      @include themify($themes) {
+        background-color: themed('color-scrollbar-track');
+      }
+      border-radius: 10px;
+    }
+    &::-webkit-scrollbar-thumb {
+      background-color: $color-chat-scroll;
+      border-radius: 10px;
+    }
+
+    &__row {
+      width: 100%;
+      display: flex;
+
+      &--user {
+        justify-content: flex-end;
+      }
+
+      &--bot {
+        justify-content: flex-start;
+      }
+    }
+
+    &__message {
+      display: inline-block;
+      padding: 0.3rem 1.3rem;
+      border-radius: $border-radius;
+      max-width: 70%;
+
+      &--user {
+        @include themify($themes) {
+          background-color: themed('color-background-message-user');
+        }
+      }
+
+      &--bot {
+        @include themify($themes) {
+          background-color: themed('color-background-message-bot');
+        }
+      }
+    }
+
+    &__message-input {
+      border: 2px solid $color-border-light;
+      border-radius: 10px;
+      box-sizing: border-box;
+      font-size: 2rem;
+      height: $message-controls-height;
+      width: 100%;
+      outline: solid #fc0 0;
+      padding: 1rem;
+      transition: all 0.7s ease-in;
+      @include themify($themes) {
+        background-color: themed('color-background-search');
+      }
+
+      &::placeholder {
+        @include themify($themes) {
+          color: rgba(themed('color-text-main'), 0.5);
+        }
+      }
+
+      z-index: 1;
+      &::-webkit-search-cancel-button {
+        @include themify($themes) {
+          color: themed('color-heading-2');
+        }
+      }
+      &:focus {
+        @include themify($themes) {
+          border-color: themed('color-heading-2');
+        }
+      }
+    }
+
+    &__button {
+      height: $message-controls-height;
+      width: 100%;
+      border-radius: $border-radius;
+      cursor: pointer;
+      z-index: 10;
+
+      border: 2px solid $color-border-light;
+
+      transition: all 0.3s;
+
+      @include themify($themes) {
+        background-color: themed('color-background-button');
+        color: themed('color-text-main');
+      }
+
+      &:hover:enabled {
+        @include themify($themes) {
+          border-color: themed('color-heading-2');
+        }
+      }
+
+      &:active {
+        transform: translateY(3px);
+      }
+
+      &:disabled,
+      &[disabled] {
+        cursor: default;
+        border-color: darken($color-border-light, 10%);
+
+        @include themify($themes) {
+          background-color: darken(themed('color-background-button'), 15%);
+          color: rgba(themed('color-text-main'), 0.4);
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,32 @@
+.footer {
+  height: 20rem;
+  background-color: #d8fdfd;
+  padding: 3rem 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+
+  @include themify($themes) {
+    background-color: themed('color-background-footer');
+  }
+
+  &-icons {
+    display: flex;
+    gap: 23px;
+  }
+}
+
+.link-icon {
+  display: inline-block;
+  transform: scale(1.7);
+  transition: all 0.3s;
+  @include themify($themes) {
+    fill: themed('color-svg-fill');
+  }
+
+  &:hover {
+    @include themify($themes) {
+      fill: themed('color-anchor');
+    }
+  }
+}

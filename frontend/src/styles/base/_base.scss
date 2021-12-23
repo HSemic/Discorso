@@ -1,0 +1,22 @@
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit;
+}
+
+body {
+  box-sizing: border-box;
+}
+
+.App {
+  min-height: 100vh;
+}
+
+.app-container {
+  transition: all 0.5s;
+  @include themify($themes) {
+    background-color: themed('color-background-main');
+  }
+}

@@ -1,0 +1,105 @@
+html {
+  font-size: 62.5%;
+  // width: 100vw;
+
+  @include respondMax($xl) {
+    font-size: 50%;
+  }
+
+  @include respondMax($lg) {
+    font-size: 43.75%;
+  }
+}
+
+body {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 400;
+  line-height: 1.7;
+  @include themify($themes) {
+    color: themed('color-text-main');
+  }
+}
+
+.app-container {
+  .heading-main {
+    font-size: 4rem;
+    text-transform: uppercase;
+    text-align: left;
+    font-family: 'Pacifico', sans-serif;
+    text-align: center;
+    @include themify($themes) {
+      color: themed('color-text-main');
+    }
+  }
+
+  .intro {
+    font-size: 2.5rem;
+    text-align: center;
+  }
+
+  @include themify($themes) {
+    color: themed('color-text-main');
+  }
+
+  .link {
+    color: $color-anchor;
+    text-decoration: none;
+
+    &::link,
+    &:visited {
+      text-decoration: none;
+    }
+  }
+
+  .navbar {
+    @include themify($themes) {
+      color: themed('color-text-main');
+    }
+  }
+
+  .logo {
+    @include themify($themes) {
+      color: themed('color-logo');
+    }
+    font-size: 2.5rem;
+    font-weight: 700;
+    text-decoration: none;
+
+    font-family: 'Pacifico', sans-serif;
+  }
+
+  .paragraph {
+    font-size: 1.8rem;
+
+    &--center {
+      text-align: center;
+    }
+  }
+
+  .chat {
+    &__message {
+      font-size: $default-font-size;
+
+      &--user {
+        color: $color-white;
+      }
+
+      &--bot {
+        color: $color-black;
+      }
+    }
+
+    &__message-input {
+      &,
+      &::placeholder {
+        @include themify($themes) {
+          color: themed('color-message-input');
+        }
+      }
+    }
+  }
+
+  .chat__button {
+    font-size: $default-font-size;
+  }
+}

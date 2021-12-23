@@ -1,0 +1,98 @@
+.app-container {
+  .hidden {
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    height: 1px;
+    overflow: hidden;
+    position: absolute;
+    white-space: nowrap;
+    width: 1px;
+  }
+
+  // .toggle-wrapper {
+  //   width: 1.3rem;
+  //   display: block;
+  // }
+
+  .toggle {
+    height: 3.5rem;
+    width: 6.5rem;
+    @include themify($themes) {
+      background: themed('color-background-sub-2');
+    }
+    @include respondMax($lg) {
+      margin: auto;
+    }
+    border-radius: 4rem;
+    padding: 2px 7px 2px 0px;
+    position: relative;
+    cursor: pointer;
+
+    &::before {
+      content: '';
+      display: block;
+      height: 2.5rem;
+      width: 2.5rem;
+      border-radius: 3rem;
+      @include themify($themes) {
+        background: themed('color-background-sub-1');
+      }
+      position: absolute;
+      top: 0.5rem;
+      left: 0.5rem;
+      z-index: 2;
+      transform: translate(0);
+      transition: transform 0.3s ease;
+    }
+
+    &.enabled::before {
+      transform: translateX(3rem);
+    }
+
+    & input {
+      position: absolute;
+      top: 0;
+      opacity: 0;
+    }
+
+    & .icons {
+      display: flex;
+      justify-content: space-between;
+      position: absolute;
+      right: 1.1rem;
+      top: 0;
+      align-items: center;
+      height: 100%;
+
+      & .svg {
+        display: inline-block;
+        @include themify($themes) {
+          fill: themed('color-background-sub-1');
+        }
+        height: 1.8rem;
+        width: 1.7rem;
+        z-index: 0;
+        margin-left: 0.9rem;
+
+        &:first-child {
+          height: 2rem;
+          width: 2rem;
+        }
+      }
+    }
+
+    &-label {
+      font-size: 1px;
+      position: absolute;
+      visibility: hidden;
+      left: 2rem;
+      top: 0;
+    }
+  }
+
+  #navbarDarkModeToggle {
+    @include respondMax($md) {
+      // display: none;
+    }
+  }
+}

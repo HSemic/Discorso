@@ -1,0 +1,33 @@
+.u-height-full {
+  height: 100% !important;
+}
+
+.u-width-full {
+  width: 100% !important;
+}
+
+.u-flexible-1 {
+  flex-grow: 1;
+}
+
+.u-flexible-3 {
+  flex-grow: 4;
+}
+
+.u-spacer-vertical-lg {
+  height: $gutter-vertical-lg !important;
+}
+
+.u-spacer-vertical-md {
+  height: $gutter-vertical-md !important;
+}
+
+.u-visually-hidden {
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  height: 1px;
+  overflow: hidden;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
+}

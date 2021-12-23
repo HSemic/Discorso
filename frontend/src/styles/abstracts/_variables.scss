@@ -1,0 +1,82 @@
+$themes: (
+  light: (
+    color-background-main: #fff,
+    color-logo: blueviolet,
+    color-text-main: #5e5e5e,
+    color-background-sub-1: #f7f7f7,
+    color-background-sub-2: #333,
+    color-background-message-user: #3988cb,
+    color-background-message-bot: #c1c3c3,
+    color-scrollbar-track: lightgrey,
+    color-heading-2: #6c56c8,
+    color-background-search: #fff,
+    color-message-input: #656565,
+    color-anchor: #7a81e1,
+    color-background-footer: #d8fdfd,
+    color-svg-fill: #1e2533,
+    color-background-button: lighten(lightgrey, 10%)
+  ),
+  dark: (
+    color-background-main: #1a202c,
+    color-logo: rgb(220, 183, 255),
+    color-text-main: #eee,
+    color-background-sub-1: #333,
+    color-background-sub-2: #eee,
+    color-background-message-user: #51a1e6,
+    color-background-message-bot: #e0e1e1,
+    color-scrollbar-track: lighten(rgba(255, 255, 255, 0.2), 10%),
+    color-heading-2: rgb(220, 183, 255),
+    color-background-search: #222a39,
+    color-message-input: #d5d5d5,
+    color-anchor: #00aacc,
+    color-background-footer: #222a39,
+    color-svg-fill: #eee,
+    color-background-button: lighten(#222a39, 10%)
+  )
+);
+
+$color-primary-main: #3988cb;
+$color-primary-light: #51a1e6;
+$color-primary-dark: #0e3f6a;
+
+$color-card-title: #656565;
+$color-card-subtitle: #717171;
+$color-anchor: #00aacc;
+
+$color-background-element: white;
+$color-border-light: #d5d5d5;
+
+$color-white: #fff;
+$color-black: #000;
+
+$color-chat-scroll: #fd264f;
+
+$card-height: 13rem;
+
+$items-gap: 1.4rem;
+
+$border-radius: 1rem;
+
+$message-controls-height: 5rem;
+
+// FONT
+$default-font-size: 2.1rem;
+
+// LAYOUT
+$row-width: 50%;
+$gutter-horizontal-none: 0rem;
+$gutter-horizontal-xs: 1.5rem;
+$gutter-horizontal-sm: 2rem;
+$gutter-horizontal-md: 4rem;
+$gutter-horizontal-lg: 6rem;
+$gutter-vertical-xs: 1rem;
+$gutter-vertical-sm: 2rem;
+$gutter-vertical-md: 4rem;
+$gutter-vertical-lg: 8rem;
+
+// MEDIA QUERY BREAKPOINTS
+$xs: 0px;
+$sm: 600px;
+$md: 960px;
+$lg: 1280px;
+$xl: 1536px;
