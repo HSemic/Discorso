@@ -11,9 +11,9 @@ from ...bots.nlp import NLPChatBot
 
 nlpBot = NLPChatBot();
 
-blueprint_nlp = Blueprint('nlp_api', __name__, url_prefix='/')
+blueprint_nlp = Blueprint('nlp_api', __name__, url_prefix='/nlp')
 
-@blueprint_nlp.route('/nlp', methods=['GET'])
+@blueprint_nlp.route('/', methods=['GET'])
 @cross_origin(allow_headers=["Content-Type", "Authorization"])
 @requires_auth
 def test():
@@ -34,7 +34,7 @@ def test():
     return jsonify(output)
 
 
-@blueprint_nlp.route('/nlp', methods=["POST"])
+@blueprint_nlp.route('/', methods=["POST"])
 @cross_origin(allow_headers=["Content-Type", "Authorization"])
 @requires_auth
 def get_nlp_message():

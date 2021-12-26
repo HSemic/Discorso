@@ -10,9 +10,9 @@ from ...bots.aiml import AIMLChatBot
 
 aimlBot = AIMLChatBot();
 
-blueprint_aiml = Blueprint('aiml_api', __name__, url_prefix='/')
+blueprint_aiml = Blueprint('aiml_api', __name__, url_prefix='/aiml')
 
-@blueprint_aiml.route('/aiml', methods=['GET'])
+@blueprint_aiml.route('/', methods=['GET'])
 @cross_origin(allow_headers=["Content-Type", "Authorization"])
 @requires_auth
 def test():
@@ -32,7 +32,7 @@ def test():
     output = {"message": "This is a test message from the aiml chatbot.", "created_at": dt.datetime.now()}
     return jsonify(output)
 
-@blueprint_aiml.route('/aiml', methods=["POST"])
+@blueprint_aiml.route('/', methods=["POST"])
 @cross_origin(allow_headers=["Content-Type", "Authorization"])
 @requires_auth
 def get_aiml_message():
