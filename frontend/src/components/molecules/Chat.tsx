@@ -1,22 +1,22 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from "react";
 
-import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuidv4 } from "uuid";
 
-import ChatMessage from '../atoms/ChatMessage';
+import ChatMessage from "../atoms/ChatMessage";
 
-import { fetchChatMessage } from '../../services/chatService';
+import { fetchChatMessage } from "../../services/chatService";
 
 interface ChatProps {
-  chatType: 'aiml' | 'nlp';
+  chatType: "aiml" | "nlp";
 }
 
 const Chat = ({ chatType }: ChatProps): React.ReactElement => {
-  const [userInput, setUserInput] = useState('');
+  const [userInput, setUserInput] = useState("");
   const [messages, setMessages] = useState<Message[]>([
     {
       text: `Hi! I am ${chatType.toUpperCase()} chatbot. Chat with me!`,
-      source: 'bot'
-    }
+      source: "bot",
+    },
   ]);
   const bottomRef = useRef<null | HTMLDivElement>(null);
   const [loading, setLoading] = useState(false);
@@ -37,16 +37,16 @@ const Chat = ({ chatType }: ChatProps): React.ReactElement => {
   const onSendMessageButtonClick = async (userMessage: string) => {
     setMessages((messages) => [
       ...messages,
-      { text: userInput, source: 'user' }
+      { text: userInput, source: "user" },
     ]);
 
-    setUserInput('');
+    setUserInput("");
 
     setLoading(true);
 
     const result = await fetchChatMessage(userMessage, chatType);
 
-    setMessages((messages) => [...messages, { text: result, source: 'bot' }]);
+    setMessages((messages) => [...messages, { text: result, source: "bot" }]);
 
     setLoading(false);
   };
@@ -64,9 +64,9 @@ const Chat = ({ chatType }: ChatProps): React.ReactElement => {
       {
         text: result,
         source: `${
-          messages[messages.length - 1].source === 'bot' ? 'user' : 'bot'
-        }`
-      }
+          messages[messages.length - 1].source === "bot" ? "user" : "bot"
+        }`,
+      },
     ]);
 
     setLoading(false);
@@ -109,7 +109,7 @@ const Chat = ({ chatType }: ChatProps): React.ReactElement => {
         <button
           className="chat__button chat__button--send-message"
           onClick={onThinkForMeButtonClick}
-          disabled={loading}
+          disabled={loading || messages[messages.length - 1].source === "user"}
         >
           Think for me
         </button>
