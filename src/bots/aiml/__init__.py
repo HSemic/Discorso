@@ -3,7 +3,7 @@ from aiml import Kernel
 from pathlib import Path
 
 BRAIN_FILE = str(Path(__file__).parent / "./brain.dump").replace("\\", "/")
-STARTUP_FILE = str(Path(__file__).parent / "./std-startup.xml").replace("\\", "/")
+# STARTUP_FILE = str(Path(__file__).parent / "./std-startup.xml").replace("\\", "/")
 
 class AIMLChatBot(object):
     def __init__(self):
