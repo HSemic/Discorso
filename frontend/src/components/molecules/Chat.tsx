@@ -59,17 +59,11 @@ const Chat = ({ chatType }: ChatProps): React.ReactElement => {
       chatType
     );
 
-    setMessages((messages) => [
-      ...messages,
-      {
-        text: result,
-        source: `${
-          messages[messages.length - 1].source === "bot" ? "user" : "bot"
-        }`,
-      },
-    ]);
+    // setMessages((messages) => [...messages, { text: result, source: "user" }]);
 
-    setLoading(false);
+    // setLoading(false);
+
+    onSendMessageButtonClick(result);
   };
 
   return (
