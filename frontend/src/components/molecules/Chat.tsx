@@ -37,7 +37,7 @@ const Chat = ({ chatType }: ChatProps): React.ReactElement => {
   const onSendMessageButtonClick = async (userMessage: string) => {
     setMessages((messages) => [
       ...messages,
-      { text: userInput, source: "user" },
+      { text: userMessage, source: "user" },
     ]);
 
     setUserInput("");
