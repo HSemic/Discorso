@@ -6,7 +6,7 @@ This web app is a chatbot with support for both Artificial Intelligence Markup L
 
 This app is deployed with Netlify and can be accessed here: https://discorso.netlify.app/.
 
-The backend is deployed on Google Cloud and its documentation can be accessed here: https://discorso-6eyj4bjopq-ew.a.run.app/api/docs/. The API is CORS and Auth0 configured to work only with the frontend. To run the app locally, intallation steps in the next section can be followed.
+The backend is deployed on Google Cloud and its documentation can be accessed here: https://discorso-6eyj4bjopq-ew.a.run.app/api/docs/. The API is CORS and Auth0 configured to work only with the frontend. To run the app locally, installation steps in the next section can be followed.
 
 ## Installation
 
